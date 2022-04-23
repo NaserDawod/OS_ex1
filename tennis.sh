@@ -59,18 +59,26 @@ choose_num () {
         player_2=$[$player_2-$player_2_guess]
     elif test $player_2_guess -ge $player_1_guess
     then
-        place=$[$place-1]
+        if (( $place >= 0 )); then
+            place=-1
+        else
+            place=$[$place-1]
+        fi
         player_1=$[$player_1-$player_1_guess]
         player_2=$[$player_2-$player_2_guess]
     else
-        place=$[$place+1]
+        if (( $place <= 0 )); then
+            place=1
+        else
+            place=$[$place+1]
+        fi
         player_1=$[$player_1-$player_1_guess]
         player_2=$[$player_2-$player_2_guess]
     fi
 
-    if test $place -eq 0; then
-        ball=$p0_0
-    elif test $place -eq 1; then
+    # if test $place -eq 0; then
+    #     ball=$p0_0
+    if test $place -eq 1; then
         ball=$p2_1
     elif test $place -eq 2; then
         ball=$p2_2
@@ -80,7 +88,7 @@ choose_num () {
         ball=$p1_1
     elif test $place -eq -2; then
         ball=$p1_2
-    else
+    elif test $place -eq -3; then
         ball=$p1_3
     fi
 }
