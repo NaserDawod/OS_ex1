@@ -13,7 +13,7 @@ then
         done
         for file in $(ls);do
             if [[ "$file" == *.c ]];then
-                c=$(grep -i -c $2 $file)
+                c=$(grep -i -w -c $2 $file)
                 if test $c -ge 1
                 then
                     filename="${file%.*}"
@@ -41,7 +41,7 @@ then
         done
         for file in $(ls);do
             if [[ "$file" == *.c ]];then
-                c=$(grep -i -c $2 $file)
+                c=$(grep -i -w -c $2 $file)
                 if test $c -ge 1
                 then
                     filename="${file%.*}"
