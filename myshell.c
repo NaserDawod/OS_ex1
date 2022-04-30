@@ -91,6 +91,8 @@ int main(int argc, char **argv) {
         strcpy(commandCpy, exe);
         parseCommands(exe, commands);
         pid = getpid();
+        history[j].id = pid;
+        history[j].command = commandCpy;
         if(strcmp(commands[0], "exit") == 0) {
             return 0;
         } else if(strcmp(commands[0], "cd") == 0) {
@@ -98,7 +100,7 @@ int main(int argc, char **argv) {
                 perror("chdir failed");
             }
         } else if(strcmp(commands[0], "history") == 0) {
-            printHistory(history, j);
+            printHistory(history, j + 1);
         } else {
             if((pid = fork()) == 0) {
                 check = execvp(commands[0], commands);
@@ -112,11 +114,11 @@ int main(int argc, char **argv) {
             } else if(wait(&stat) == -1){
                 perror("wait failed");
             }
+            history[j].id = pid;
         }
-        history[j].id = pid;
-        history[j].command = commandCpy;
         freeCommands(commands);
     }
     chdir(pwd);
     freeHistory(history, j);
 }
+
